@@ -1,0 +1,56 @@
+import java.util.*;
+class Main {
+    static class Node {
+        int data;
+        Node left, right;
+
+        Node(int d) {
+            data = d;
+        }
+    }
+    static Node lca(Node root, int a, int b) {
+        if (root == null || root.data == a || root.data == b)
+            return root;
+        Node l = lca(root.left, a, b);
+        Node r = lca(root.right, a, b);
+        if (l != null && r != null)
+            return root;
+        return (l != null) ? l : r;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++)
+            a[i] = sc.nextInt();
+        Node root = new Node(a[0]);
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        int i = 1;
+        while (i < n) {
+            Node cur = q.poll();
+            if (i < n) {
+                cur.left = new Node(a[i++]);
+                q.add(cur.left);
+            }
+            if (i < n) {
+                cur.right = new Node(a[i++]);
+                q.add(cur.right);
+            }
+        }
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+        Node ans = lca(root, x, y);
+        if (ans != null)
+            System.out.println("LCA = " + ans.data);
+        else
+            System.out.println("LCA not found");
+        sc.close();
+    }
+}
+Input:
+9
+10 5 15 2 7 12 20 1 4
+1 7
+Output:
+LCA = 5
