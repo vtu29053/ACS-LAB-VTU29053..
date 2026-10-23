@@ -1,0 +1,96 @@
+import java.util.Scanner;
+class Node {
+    int data;
+    Node next;
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+public class Main {
+    static Node reverseK(Node head, int k) {
+        Node current = head;
+        Node prev = null;
+        Node next = null;
+        int count = 0;
+        while (current != null && count < k) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+            count++;
+        }
+        if (next != null) {
+            head.next = reverseK(next, k);
+        }
+        return prev;
+    }
+    static void removeCycle(Node head) {
+        Node slow = head;
+        Node fast = head;
+        boolean cycle = false;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                cycle = true;
+                break;
+            }
+        }
+        if (!cycle)
+            return;
+        slow = head;
+        if (slow == fast) {
+            while (fast.next != slow) {
+                fast = fast.next;
+            }
+            fast.next = null;
+            return;
+        }
+        while (slow.next != fast.next) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        fast.next = null;
+    }
+    static void printList(Node head) {
+        while (head != null) {
+            System.out.print(head.data + " ");
+            head = head.next;
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        Node head = null;
+        Node tail = null;
+        Node[] nodes = new Node[n];
+        for (int i = 0; i < n; i++) {
+            Node newNode = new Node(sc.nextInt());
+            nodes[i] = newNode;
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+        int cyclePos = sc.nextInt();
+        if (cyclePos != -1) {
+            tail.next = nodes[cyclePos];
+        }
+        removeCycle(head);
+        head = reverseK(head, k);
+        printList(head);
+
+        sc.close();
+    }
+}
+Input:
+8 3
+10 20 30 40 50 60 70 80
+2
+Output:
+30 20 10 60 50 40 80 70
