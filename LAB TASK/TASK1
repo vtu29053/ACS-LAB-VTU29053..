@@ -1,0 +1,34 @@
+import java.util.Scanner;
+public class Traffic {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the N value (size):");
+        int N = sc.nextInt();
+        int[] vehicles = new int[N];
+        System.out.println("Enter the vehicle counts:");
+        for (int i = 0; i < N; i++) {
+            vehicles[i] = sc.nextInt();
+        }
+        System.out.println("Enter the window size:");
+        int K = sc.nextInt();
+        int windowSum = 0;
+        for (int i = 0; i < K; i++) {
+            windowSum += vehicles[i];
+        }
+        int maxSum = windowSum;
+        for (int i = 1; i <= N - K; i++) {
+            windowSum = windowSum - vehicles[i - 1] + vehicles[i + K - 1];
+            if (windowSum > maxSum) {
+                maxSum = windowSum;
+            }
+        }
+        System.out.println("Maximum vehicles in window: " + maxSum);
+        sc.close();
+    }
+}
+Input 
+5
+2 5 1 7 3
+3
+Output
+Maximum vehicles in window: 13
