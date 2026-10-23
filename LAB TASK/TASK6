@@ -1,0 +1,35 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] count = new int[26];
+        for (int i = 0; i < n; i++) {
+            String task = sc.next();
+            int index = task.charAt(0) - 'A';
+            count[index]++;
+        }
+        int maxFreq = 0;
+        for (int i = 0; i < 26; i++) {
+            if (count[i] > maxFreq) {
+                maxFreq = count[i];
+            }
+        }
+        int countMax = 0;
+        for (int i = 0; i < 26; i++) {
+            if (count[i] == maxFreq) {
+                countMax++;
+            }
+        }
+        int part = (maxFreq - 1) * (k + 1) + countMax;
+        int answer = Math.max(n, part);
+        System.out.println(answer);
+        sc.close();
+    }
+}
+Input:
+8 2
+Output:
+A A A B B C D D
+8
