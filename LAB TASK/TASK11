@@ -1,0 +1,57 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int[][] grid = new int[r][c];
+        Queue<int[]> q = new LinkedList<>();
+        boolean[][] visited = new boolean[r][c];
+        int trees = 0, minutes = 0;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                grid[i][j] = sc.nextInt();
+                if (grid[i][j] == 2) {
+                    q.add(new int[]{i, j});
+                    visited[i][j] = true;
+                }
+                if (grid[i][j] == 1)
+                    trees++;
+            }
+        }
+        int[] dr = {-1, 1, 0, 0};
+        int[] dc = {0, 0, -1, 1};
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int[] cell = q.poll();
+                for (int d = 0; d < 4; d++) {
+                    int nr = cell[0] + dr[d];
+                    int nc = cell[1] + dc[d];
+                    if (nr >= 0 && nr < r && nc >= 0 && nc < c
+                            && !visited[nr][nc]) {
+                        visited[nr][nc] = true;
+                        if (grid[nr][nc] == 1)
+                            trees--;
+                        q.add(new int[]{nr, nc});
+                    }
+                }
+            }
+            minutes++;
+        }
+        if (trees > 0)
+            System.out.println("Minutes = -1");
+        else
+            System.out.println("Minutes = " + (minutes - 1));
+
+        sc.close();
+    }
+}
+Input:
+4 5
+2 1 1 0 1
+1 1 0 1 1
+0 1 1 1 0
+1 0 1 1 1
+Output:
+Minutes = 7
