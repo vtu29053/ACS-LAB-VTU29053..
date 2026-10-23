@@ -1,0 +1,38 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int k = sc.nextInt();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int total = 0;
+        for (int i = 0; i < m; i++) {
+            int n = sc.nextInt();
+            total += n;
+            for (int j = 0; j < n; j++) {
+                pq.add(sc.nextInt());
+            }
+        }
+        int[] a = new int[total];
+        for (int i = 0; i < total; i++) {
+            a[i] = pq.poll();
+        }
+        System.out.print("Merged:\n");
+        for (int i = 0; i < total; i++) {
+            System.out.print(a[i] + " ");
+        }
+        System.out.print("\nTopK:\n");
+        for (int i = total - 1; i >= total - k; i--) {
+            System.out.print(a[i] + " ");
+        }
+        sc.close();
+    }
+}
+INPUT:
+3 5
+4 2 6 9 15
+3 1 7 20
+5 3 8 12 14 18
+OUTPUT:
+MERGED: 1 2 3 6 7 8 9 12 14 15 18 20
+TOP K: 20 18 15 14 12
