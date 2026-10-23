@@ -1,0 +1,48 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i <= N; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int i = 0; i < M; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+        boolean[] visited = new boolean[N + 1];
+        int components = 0;
+        for (int i = 1; i <= N; i++) {
+            if (!visited[i]) {
+                Queue<Integer> queue = new LinkedList<>();
+                queue.add(i);
+                visited[i] = true;
+                while (!queue.isEmpty()) {
+                    int node = queue.poll();
+                    for (int neighbor : graph.get(node)) {
+                        if (!visited[neighbor]) {
+                            visited[neighbor] = true;
+                            queue.add(neighbor);
+                        }
+                    }
+                }
+                components++;
+            }
+        }
+        System.out.println("Connected Components = " + components);
+        sc.close();
+    }
+}
+INPUT:
+7 5
+1 2
+2 3
+4 5
+6 7
+5 6
+OUTPUT:
+Connected Components=2
