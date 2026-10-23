@@ -1,0 +1,44 @@
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), m = sc.nextInt();
+        ArrayList<Integer>[] g = new ArrayList[n + 1];
+        for (int i = 1; i <= n; i++)
+            g[i] = new ArrayList<>();
+        int[] in = new int[n + 1];
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt(), v = sc.nextInt();
+            g[u].add(v);
+            in[v]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 1; i <= n; i++)
+            if (in[i] == 0) q.add(i);
+        ArrayList<Integer> order = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            order.add(u);
+            for (int v : g[u])
+                if (--in[v] == 0) q.add(v);
+        }
+        if (order.size() != n) {
+            System.out.println("IMPOSSIBLE");
+        } else {
+            System.out.println("Course Order:");
+            for (int x : order)
+                System.out.print(x);
+            System.out.println();
+        }
+    }
+}
+INPUT:
+6 6
+1 2
+1 3
+2 4
+3 4
+4 5
+5 6
+OUTPUT:
+Course Order: 1 2 3 4 5 6
